@@ -1,11 +1,11 @@
 package com.example.bookapp.Navigation
 
+import FavBooks
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bookapp.Screen.AddBooks
-import com.example.bookapp.Screen.FavBooks
 
 @Composable
 fun Navigation(){
