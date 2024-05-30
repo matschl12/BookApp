@@ -41,7 +41,7 @@ fun BottomNavBar(
                 },
                 label = { Text(text = item.title) },
                 icon = {
-                    BadgedBox(badge = { /* Add Badge if needed */ }) {
+                    BadgedBox(badge = { }) {
                         Icon(
                             imageVector = if (selectedItemIndex == index) item.selectedIcon else item.unselectedIcon,
                             contentDescription = item.title
