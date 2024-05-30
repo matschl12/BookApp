@@ -23,7 +23,10 @@ data class Book (
             Book(titel = "Wir Kinder vom Bahnhof Zoo",
                 autor = "Kai Hermann",
                 release = 2017,
-                isbn = "978-3-551-31732-2")
-
+                isbn = "978-3-551-31732-2"),
+            Book(titel = "Tschick",
+                autor = "Wolfgang Herrndorf",
+                release = 2013,
+                isbn = "978-3-944668-03-1"),
         )
     }
