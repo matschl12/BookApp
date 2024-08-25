@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -30,34 +31,69 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.bookapp.models.Book
 import com.example.bookapp.models.getBooks
+import com.example.bookapp.models.removeBook
 
 
 @Composable
-fun BookList (modifier: Modifier, books: List<Book> = getBooks()){
+fun BookList (modifier: Modifier, books: List<Book> = getBooks(), onBookRemove: (Book) -> Unit){
     LazyColumn (modifier = modifier){
         items(books) {book ->
-            BookRow(book)
+            BookRow(book, onRemove = {onBookRemove(book)})
         }
     }
 }
 
 
 @Composable
-fun BookRow (book: Book){
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(5.dp),
+fun BookRow (book: Book, onRemove: () -> Unit) {
+    var showDetails by remember { mutableStateOf(false) }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
         shape = ShapeDefaults.Large,
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
         Column {
-            BookDetails(modifier = Modifier.padding(12.dp), book = book)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp)
+                    .clickable { showDetails = !showDetails }, // Zum Ein- und Ausklappen
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "\"" + book.titel + "\" von " + book.autor)
+                Icon(
+                    imageVector = if (showDetails) Icons.Filled.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                    contentDescription = "show more"
+                )
+            }
 
+            AnimatedVisibility(
+                visible = showDetails,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        text = "Released: ${book.release}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Text(text = "ISBN: ${book.isbn}", style = MaterialTheme.typography.bodySmall)
+                    Button(onClick = { onRemove() }) {
+                        Text(text = "Remove")
+                    }
+                    Button(onClick = { onRemove() }) {
+                        Text(text = "Read")
+                    }
+                }
+            }
         }
     }
 }
 @Composable
-fun BookDetails(modifier: Modifier, book: Book) {
+fun BookDetails(modifier: Modifier, book: Book, onRemove: () -> Unit) {
     var showDetails by remember {
         mutableStateOf(false)
     }
@@ -91,6 +127,12 @@ fun BookDetails(modifier: Modifier, book: Book) {
             Text(text = "Released: ${book.release}", style = MaterialTheme.typography.bodySmall)
             Text(text = "ISBN: ${book.isbn}", style = MaterialTheme.typography.bodySmall)
 
+            Button(onClick = {
+                removeBook(book)
+                onRemove()
+            }) {
+                Text(text = "Remove")
+            }
         }
     }
 }

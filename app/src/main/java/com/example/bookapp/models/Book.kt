@@ -65,5 +65,21 @@ val bookList = mutableListOf(
             autor = "Wolfgang Herrndorf",
             release = 2013,
             isbn = "978-3-944668-03-1")
-    )
+)
+
+val readList = mutableListOf(
+    Book(titel = "Tschick",
+        autor = "Wolfgang Herrndorf",
+        release = 2013,
+        isbn = "978-3-944668-03-1")
+)
+
+
+fun removeBook(book: Book){
+    bookList.remove(book)
+}
+
+fun addToReadList(book: Book){
+    readList.add(book)
+}
 

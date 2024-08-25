@@ -8,16 +8,22 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.bookapp.Widgets.BottomNavBar
 import com.example.bookapp.Widgets.BookList
 import com.example.bookapp.BottomNavigationItem
 import com.example.bookapp.models.getBooks
+import com.example.bookapp.models.readList
 
 
 @Composable
 fun FavBooks(navController: NavController){
+    var books by remember { mutableStateOf(getBooks()) }
     val items = listOf(
         BottomNavigationItem(
             title = "FavBooks",
@@ -38,7 +44,7 @@ fun FavBooks(navController: NavController){
         }
     ) { innerPadding ->
 
-        if (getBooks().size == 0){
+        if (getBooks().isEmpty()){
             Text(
                 text = "Es wurden noch keine Bücher angelegt",
                 modifier = Modifier.padding(innerPadding)
@@ -48,7 +54,14 @@ fun FavBooks(navController: NavController){
         {
             BookList(
                 modifier = Modifier.padding(innerPadding),
-                books = getBooks()
+                books = books,
+                onBookRemove = {book ->
+                    books = books.toMutableList().also { it.remove(book) }
+                }
+            )
+            Text( //test for add to readlist
+                text = readList.toString(),
+                modifier = Modifier.padding(innerPadding)
             )
         }
     }
