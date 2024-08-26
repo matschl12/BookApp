@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -29,24 +30,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.bookapp.models.Book
+import com.example.bookapp.models.bookList
+import com.example.bookapp.models.editBook
 import com.example.bookapp.models.editReadList
 import com.example.bookapp.models.getBooks
 import com.example.bookapp.models.removeBook
 
 
 @Composable
-fun BookList (modifier: Modifier, books: List<Book> = getBooks(), onBookRemove: (Book) -> Unit){
+fun BookList (modifier: Modifier, books: List<Book> = getBooks(), onBookRemove: (Book) -> Unit, navController: NavController){
     LazyColumn (modifier = modifier){
-        items(books) {book ->
-            BookRow(book, onRemove = {onBookRemove(book)})
+        itemsIndexed(books) {index, book ->
+            BookRow(book, index, onRemove = {onBookRemove(book)}, navController)
         }
     }
 }
 
 
 @Composable
-fun BookRow (book: Book, onRemove: () -> Unit) {
+fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavController) {
     var showDetails by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
@@ -83,19 +87,22 @@ fun BookRow (book: Book, onRemove: () -> Unit) {
                     )
                     Text(text = "ISBN: ${book.isbn}", style = MaterialTheme.typography.bodySmall)
                     Text(text = "On Readlist: ${book.onReadList}")
-                    if(book.onReadList == false)
+                    if(!book.onReadList)
                     {
                         Button(onClick = { editReadList(book) }) {
-                            Text(text = "Add to ReadList")
+                            Text(text = "Add to Readlist")
                         }
                     }
                     else
                     {
                         Button(onClick = { editReadList(book) }) {
-                            Text(text = "Remove from ReadList")
+                            Text(text = "Remove from Readlist")
                         }
                     }
-                    Button(onClick = { onRemove() }) {
+                    Button(onClick = {navController.navigate("EditBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}")  }){
+                        Text(text = "Edit")
+                    }
+                    Button(onClick = {onRemove() }) {
                         Text(text = "Remove")
                     }
                 }

@@ -18,7 +18,6 @@ import com.example.bookapp.Widgets.BottomNavBar
 import com.example.bookapp.Widgets.BookList
 import com.example.bookapp.BottomNavigationItem
 import com.example.bookapp.models.getBooks
-import com.example.bookapp.models.readList
 
 
 @Composable
@@ -55,13 +54,10 @@ fun FavBooks(navController: NavController){
             BookList(
                 modifier = Modifier.padding(innerPadding),
                 books = books,
+                navController = navController,
                 onBookRemove = {book ->
                     books = books.toMutableList().also { it.remove(book) }
                 }
-            )
-            Text( //test for add to readlist
-                text = readList.toString(),
-                modifier = Modifier.padding(innerPadding)
             )
         }
     }

@@ -7,12 +7,62 @@ data class Book (
     val isbn: String,
     var onReadList: Boolean
 )
-    fun getBooks(): List<Book> {
-        return bookList
-    }
+
+val bookList = mutableListOf(
+        Book(titel = "Die Tribute von Panem 1. Tödliche Spiele",
+            autor = "Suzanne Collins",
+            release = 2020,
+            isbn = "978-3-7891-2127-2",
+            onReadList = false),
+
+        Book(titel = "Harry Potter und der Halbblutprinz",
+            autor = "J. K. Rowling",
+            release = 2018,
+            isbn = "978-3-551-55746-9",
+            onReadList = false),
+        Book(titel = "1984",
+            autor = "George Orwell",
+            release = 2021,
+            isbn = "978-3-7306-0976-7",
+            onReadList = false),
+        Book(titel = "Wir Kinder vom Bahnhof Zoo",
+            autor = "Kai Hermann",
+            release = 2017,
+            isbn = "978-3-551-31732-2",
+            onReadList = false),
+        Book(titel = "Tschick",
+            autor = "Wolfgang Herrndorf",
+            release = 2013,
+            isbn = "978-3-944668-03-1",
+            onReadList = false)
+)
+fun getBooks(): List<Book> {
+    return bookList
+}
 
 fun addBook(book: Book){
     bookList.add(book)
+}
+
+fun removeBook(book: Book){
+    bookList.remove(book)
+}
+
+fun editReadList(book: Book){
+    if(book.onReadList == false)
+    {
+        book.onReadList = true
+    }
+    else
+    {
+        book.onReadList = false
+    }
+}
+
+fun editBook(index: Int, titel: String, autor: String, release: Int, isbn: String, onReadList: Boolean){
+    bookList.removeAt(1)
+    bookList.add(1,  Book(titel, autor, release, isbn, onReadList))
+
 }
 
 fun isbnChecker(isbn: Long): Boolean{
@@ -44,57 +94,3 @@ fun isbnChecker(isbn: Long): Boolean{
 
     return false
 }
-
-val bookList = mutableListOf(
-        Book(titel = "Die Tribute von Panem 1. Tödliche Spiele",
-            autor = "Suzanne Collins",
-            release = 2020,
-            isbn = "978-3-7891-2127-2",
-            onReadList = false),
-
-        Book(titel = "Harry Potter und der Halbblutprinz",
-            autor = "J. K. Rowling",
-            release = 2018,
-            isbn = "978-3-551-55746-9",
-            onReadList = false),
-        Book(titel = "1984",
-            autor = "George Orwell",
-            release = 2021,
-            isbn = "978-3-7306-0976-7",
-            onReadList = false),
-        Book(titel = "Wir Kinder vom Bahnhof Zoo",
-            autor = "Kai Hermann",
-            release = 2017,
-            isbn = "978-3-551-31732-2",
-            onReadList = false),
-        Book(titel = "Tschick",
-            autor = "Wolfgang Herrndorf",
-            release = 2013,
-            isbn = "978-3-944668-03-1",
-            onReadList = false)
-)
-
-val readList = mutableListOf(
-    Book(titel = "Tschick",
-        autor = "Wolfgang Herrndorf",
-        release = 2013,
-        isbn = "978-3-944668-03-1",
-        onReadList = false),
-)
-
-
-fun removeBook(book: Book){
-    bookList.remove(book)
-}
-
-fun editReadList(book: Book){
-    if(book.onReadList == false)
-    {
-        book.onReadList = true
-    }
-    else
-    {
-        book.onReadList = false
-    }
-}
-

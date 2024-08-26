@@ -20,5 +20,25 @@ fun Navigation(){
         composable("AddBooks"){
             AddBooks(navController)
         }
+        composable("EditBooks/{index}/{oldTitel}/{oldAutor}/{oldRelease}/{oldIsbn}/{onReadList}")
+        {
+            backStackEntry ->
+            val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
+            val oldTitel = backStackEntry.arguments?.getString("oldTitel") ?: ""
+            val oldAutor = backStackEntry.arguments?.getString("oldAutor") ?: ""
+            val oldRelease = backStackEntry.arguments?.getString("oldRelease")?.toIntOrNull() ?: 0
+            val oldIsbn = backStackEntry.arguments?.getString("oldIsbn") ?: ""
+            val onReadList = backStackEntry.arguments?.getString("onReadList")?.toBoolean() ?: false
+
+            AddBooks(
+                navController,
+                index = index,
+                oldTitel = oldTitel,
+                oldAutor = oldAutor,
+                oldRelease = oldRelease,
+                oldIsbn = oldIsbn,
+                onReadList = onReadList
+            )
+        }
     }
 }
