@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.bookapp.models.Book
+import com.example.bookapp.models.editReadList
 import com.example.bookapp.models.getBooks
 import com.example.bookapp.models.removeBook
 
@@ -81,11 +82,21 @@ fun BookRow (book: Book, onRemove: () -> Unit) {
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(text = "ISBN: ${book.isbn}", style = MaterialTheme.typography.bodySmall)
-                    Button(onClick = { onRemove() }) {
-                        Text(text = "Remove")
+                    Text(text = "On Readlist: ${book.onReadList}")
+                    if(book.onReadList == false)
+                    {
+                        Button(onClick = { editReadList(book) }) {
+                            Text(text = "Add to ReadList")
+                        }
+                    }
+                    else
+                    {
+                        Button(onClick = { editReadList(book) }) {
+                            Text(text = "Remove from ReadList")
+                        }
                     }
                     Button(onClick = { onRemove() }) {
-                        Text(text = "Read")
+                        Text(text = "Remove")
                     }
                 }
             }

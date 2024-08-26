@@ -205,7 +205,7 @@ fun AddBooks(navController: NavController){
                                             if(isbnChecker(isbnForCalc.toLong()))
                                             {
                                                 val completeISBN = isbn1 + '-' + isbn2 + '-' + isbn3 + '-' + isbn4 + '-' + isbn5 //put all the digits from the isbn TextField into  valid isbn format
-                                                addBook(Book(title, author, release.toInt(), completeISBN))
+                                                addBook(Book(title, author, release.toInt(), completeISBN, onReadList = false))
                                                 title = ""
                                                 author = ""
                                                 release = ""
