@@ -100,7 +100,17 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                         }
                     }
                     Button(onClick = {navController.popBackStack()
-                        navController.navigate("AddBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}")  }){
+                        navController.navigate("AddBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}/true")
+                        {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    })
+                    {
+
                         Text(text = "Edit")
                     }
                     Button(onClick = {
@@ -109,50 +119,6 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                         Text(text = "Remove")
                     }
                 }
-            }
-        }
-    }
-}
-@Composable
-fun BookDetails(modifier: Modifier, book: Book, onRemove: () -> Unit) {
-    var showDetails by remember {
-        mutableStateOf(false)
-    }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "\"" + book.titel + "\" von " + book.autor)
-        Icon(
-            modifier = Modifier
-                .clickable {
-                    showDetails = !showDetails
-                },
-            imageVector =
-            if (showDetails) Icons.Filled.KeyboardArrowDown
-            else Icons.Default.KeyboardArrowUp, contentDescription = "show more"
-        )
-    }
-
-
-    AnimatedVisibility(
-        visible = showDetails,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
-        Column(modifier = modifier) {
-            Text(text = "Released: ${book.release}", style = MaterialTheme.typography.bodySmall)
-            Text(text = "ISBN: ${book.isbn}", style = MaterialTheme.typography.bodySmall)
-
-            Button(onClick = {
-                removeBook(book)
-                onRemove()
-            }) {
-                Text(text = "Remove")
             }
         }
     }

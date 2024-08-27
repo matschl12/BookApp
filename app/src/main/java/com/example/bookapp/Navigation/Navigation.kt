@@ -17,11 +17,8 @@ fun Navigation(){
             FavBooks(navController)
         }
 
-        composable("AddBooks"){
-            AddBooks(navController)
-        }
 
-        composable("AddBooks/{index}/{oldTitel}/{oldAutor}/{oldRelease}/{oldIsbn}/{onReadList}")
+        composable("AddBooks/{index}/{oldTitel}/{oldAutor}/{oldRelease}/{oldIsbn}/{onReadList}/{isBeingEdited}")
         {
             backStackEntry ->
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
@@ -30,6 +27,8 @@ fun Navigation(){
             val oldRelease = backStackEntry.arguments?.getString("oldRelease")?.toIntOrNull() ?: 0
             val oldIsbn = backStackEntry.arguments?.getString("oldIsbn") ?: ""
             val onReadList = backStackEntry.arguments?.getString("onReadList")?.toBoolean() ?: false
+            val isBeingEdited = backStackEntry.arguments?.getString("isBeingEdited")?.toBoolean() ?: false
+
 
             AddBooks(
                 navController,
@@ -38,7 +37,8 @@ fun Navigation(){
                 oldAutor = oldAutor,
                 oldRelease = oldRelease,
                 oldIsbn = oldIsbn,
-                onReadList = onReadList
+                onReadList = onReadList,
+                isBeingEdited = isBeingEdited
             )
         }
     }

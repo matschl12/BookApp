@@ -32,7 +32,7 @@ fun BottomNavBar(
                         navController.popBackStack()
                     } else {
                         if (item.title == "AddBooks"){
-                            navController.navigate("AddBooks/${bookList.size}/ / / /0-0-0-0-0/false") {
+                            navController.navigate("AddBooks/${bookList.size}/ / / /0/false/false") {
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
                                 }

@@ -40,7 +40,7 @@ import com.example.bookapp.models.getBooks
 import com.example.bookapp.models.isbnChecker
 
 @Composable
-fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAutor: String, oldRelease: Int, oldIsbn: String, onReadList: Boolean){
+fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAutor: String, oldRelease: Int, oldIsbn: String, onReadList: Boolean, isBeingEdited: Boolean){
     val items = listOf(
         BottomNavigationItem(
             title = "FavBooks",
@@ -63,19 +63,19 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
         mutableStateOf(oldRelease.toString())
     }
     var isbn1 by remember {
-        mutableStateOf(oldIsbn.split("-").first())
+        mutableStateOf(oldIsbn.split("-").getOrNull(0) ?: "")
     }
     var isbn2 by remember {
-        mutableStateOf(oldIsbn.split("-")[1])
+        mutableStateOf(oldIsbn.split("-").getOrNull(1) ?: "")
     }
     var isbn3 by remember {
-        mutableStateOf(oldIsbn.split("-")[2])
+        mutableStateOf(oldIsbn.split("-").getOrNull(2) ?: "")
     }
     var isbn4 by remember {
-        mutableStateOf(oldIsbn.split("-")[3])
+        mutableStateOf(oldIsbn.split("-").getOrNull(3) ?: "")
     }
     var isbn5 by remember {
-        mutableStateOf(oldIsbn.split("-")[4])
+        mutableStateOf(oldIsbn.split("-").getOrNull(4) ?: "")
     }
     var error by remember {
         mutableStateOf("")
@@ -93,7 +93,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                 .fillMaxWidth()
                 .padding(innerPadding),
         ) {
-            Text(text = "ADD/EDIT" +index)
+            Text(text = if (!isBeingEdited) "Add Book" else "Edit Book")
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -206,15 +206,17 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                                             if(isbnChecker(isbnForCalc.toLong()))
                                             {
                                                 val completeISBN = isbn1 + '-' + isbn2 + '-' + isbn3 + '-' + isbn4 + '-' + isbn5 //put all the digits from the isbn TextField into  valid isbn format
-                                               if (index == bookList.size)
+                                               if (!isBeingEdited)
                                                {
                                                    addBook(Book(title, author, release.toInt(), completeISBN, onReadList))
-                                                   index+1
+                                                   navController.popBackStack()
                                                }
                                                 else
                                                 {
                                                    editBook(index, title, author, release.toInt(), completeISBN, onReadList)
-                                               }
+                                                    navController.popBackStack()
+
+                                                }
 
                                               //  navController.popBackStack()
                                                 title = ""
@@ -250,14 +252,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                         error = "Invalid Input. Every TextField must be filled out."
                     }
                 }) {
-                    if (index == bookList.size)
-                    {
-                        Text(text = "Add Book")
-                    }
-                    else
-                    {
-                        Text("Edit Book")
-                    }
+                    Text(text = if (!isBeingEdited) "Add Book" else "Edit Book")
                 }
             }
             Row(
@@ -269,23 +264,6 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
             ){
                 Text(text = error)
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                Text(text = getBooks().toString())
-            }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun AddBooksPreview()
-{
-
 }
