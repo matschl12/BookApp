@@ -20,7 +20,7 @@ fun Navigation(){
         composable("AddBooks"){
             AddBooks(navController)
         }
-        composable("EditBooks/{index}/{oldTitel}/{oldAutor}/{oldRelease}/{oldIsbn}/{onReadList}")
+        composable("AddBooks/{index}/{oldTitel}/{oldAutor}/{oldRelease}/{oldIsbn}/{onReadList}")
         {
             backStackEntry ->
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0

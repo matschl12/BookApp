@@ -424,6 +424,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                                             {
                                                 val completeISBN = isbn1 + '-' + isbn2 + '-' + isbn3 + '-' + isbn4 + '-' + isbn5 //put all the digits from the isbn TextField into  valid isbn format
                                                 editBook(index, title, author, release.toInt(), completeISBN, onReadList)
+                                                navController.popBackStack()
                                                 title = ""
                                                 author = ""
                                                 release = ""

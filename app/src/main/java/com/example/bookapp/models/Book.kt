@@ -49,7 +49,7 @@ fun removeBook(book: Book){
 }
 
 fun editReadList(book: Book){
-    if(book.onReadList == false)
+    if(!book.onReadList)
     {
         book.onReadList = true
     }

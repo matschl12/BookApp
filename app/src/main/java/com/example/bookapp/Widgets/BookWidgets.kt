@@ -99,10 +99,12 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                             Text(text = "Remove from Readlist")
                         }
                     }
-                    Button(onClick = {navController.navigate("EditBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}")  }){
+                    Button(onClick = {navController.navigate("AddBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}")  }){
                         Text(text = "Edit")
                     }
-                    Button(onClick = {onRemove() }) {
+                    Button(onClick = {
+                        onRemove()
+                        removeBook(book)}) {
                         Text(text = "Remove")
                     }
                 }
