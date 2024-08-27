@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.bookapp.BottomNavigationItem
+import com.example.bookapp.models.bookList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,13 +31,26 @@ fun BottomNavBar(
                     if (selectedItemIndex == index) {
                         navController.popBackStack()
                     } else {
-                        navController.navigate(item.title) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
+                        if (item.title == "AddBooks"){
+                            navController.navigate("AddBooks/${bookList.size}/ / / /0-0-0-0-0/false") {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
+                        else{
+                            navController.navigate(item.title) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+
+
                     }
                 },
                 label = { Text(text = item.title) },
