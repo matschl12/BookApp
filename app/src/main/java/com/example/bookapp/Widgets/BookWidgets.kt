@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.bookapp.models.Book
 import com.example.bookapp.models.bookList
 import com.example.bookapp.models.editBook
@@ -47,7 +48,6 @@ fun BookList (modifier: Modifier, books: List<Book> = getBooks(), onBookRemove: 
         }
     }
 }
-
 
 @Composable
 fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavController) {
@@ -99,15 +99,15 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                             Text(text = "Remove from Readlist")
                         }
                     }
-                    Button(onClick = {navController.popBackStack()
-                        navController.navigate("AddBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}/true")
-                        {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
+                    Button(onClick = {
+                            navController.navigate("AddBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}/true")
+                            {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
                     })
                     {
 

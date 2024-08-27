@@ -12,7 +12,9 @@ fun Navigation(){
     val navController = rememberNavController()
 
     NavHost(navController = navController,
-        startDestination="FavBooks"){
+        startDestination="FavBooks")
+    {
+
         composable(route="FavBooks"){
             FavBooks(navController)
         }
@@ -21,24 +23,15 @@ fun Navigation(){
         composable("AddBooks/{index}/{oldTitel}/{oldAutor}/{oldRelease}/{oldIsbn}/{onReadList}/{isBeingEdited}")
         {
             backStackEntry ->
-            val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
-            val oldTitel = backStackEntry.arguments?.getString("oldTitel") ?: ""
-            val oldAutor = backStackEntry.arguments?.getString("oldAutor") ?: ""
-            val oldRelease = backStackEntry.arguments?.getString("oldRelease")?.toIntOrNull() ?: 0
-            val oldIsbn = backStackEntry.arguments?.getString("oldIsbn") ?: ""
-            val onReadList = backStackEntry.arguments?.getString("onReadList")?.toBoolean() ?: false
-            val isBeingEdited = backStackEntry.arguments?.getString("isBeingEdited")?.toBoolean() ?: false
-
-
             AddBooks(
                 navController,
-                index = index,
-                oldTitel = oldTitel,
-                oldAutor = oldAutor,
-                oldRelease = oldRelease,
-                oldIsbn = oldIsbn,
-                onReadList = onReadList,
-                isBeingEdited = isBeingEdited
+                backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0,
+                backStackEntry.arguments?.getString("oldTitel") ?: "",
+                backStackEntry.arguments?.getString("oldAutor") ?: "",
+                backStackEntry.arguments?.getString("oldRelease")?.toIntOrNull() ?: 0,
+                backStackEntry.arguments?.getString("oldIsbn") ?: "",
+                backStackEntry.arguments?.getString("onReadList")?.toBoolean() ?: false,
+                backStackEntry.arguments?.getString("isBeingEdited")?.toBoolean() ?: true
             )
         }
     }

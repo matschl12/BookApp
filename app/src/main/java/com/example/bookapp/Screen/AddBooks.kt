@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -93,6 +95,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                 .fillMaxWidth()
                 .padding(innerPadding),
         ) {
+            Spacer(modifier = Modifier.height(35.dp))
             Text(text = if (!isBeingEdited) "Add Book" else "Edit Book")
             Row(
                 modifier = Modifier
@@ -209,16 +212,13 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                                                if (!isBeingEdited)
                                                {
                                                    addBook(Book(title, author, release.toInt(), completeISBN, onReadList))
-                                                   navController.popBackStack()
+                                                  // navController.popBackStack()
                                                }
                                                 else
                                                 {
                                                    editBook(index, title, author, release.toInt(), completeISBN, onReadList)
                                                     navController.popBackStack()
-
                                                 }
-
-                                              //  navController.popBackStack()
                                                 title = ""
                                                 author = ""
                                                 release = ""

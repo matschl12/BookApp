@@ -1,4 +1,6 @@
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.bookapp.Widgets.BottomNavBar
 import com.example.bookapp.Widgets.BookList
@@ -42,6 +45,7 @@ fun FavBooks(navController: NavController){
             BottomNavBar(items, navController)
         }
     ) { innerPadding ->
+        Spacer(modifier = Modifier.height(35.dp))
 
         if (getBooks().isEmpty()){
             Text(

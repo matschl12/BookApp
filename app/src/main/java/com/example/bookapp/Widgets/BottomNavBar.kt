@@ -21,17 +21,15 @@ fun BottomNavBar(
 ) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
-    val selectedItemIndex = items.indexOfFirst { it.title == currentDestination?.route }
+    var selectedItemIndex = items.indexOfFirst { it.title == currentDestination?.route }
 
     NavigationBar {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = selectedItemIndex == index,
                 onClick = {
-                    if (selectedItemIndex == index) {
-                        navController.popBackStack()
-                    } else {
                         if (item.title == "AddBooks"){
+                            selectedItemIndex = index
                             navController.navigate("AddBooks/${bookList.size}/ / / /0/false/false") {
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
@@ -41,7 +39,7 @@ fun BottomNavBar(
                             }
                         }
                         else{
-                            navController.navigate(item.title) {
+                            navController.navigate("FavBooks") {
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
                                 }
@@ -49,9 +47,6 @@ fun BottomNavBar(
                                 restoreState = true
                             }
                         }
-
-
-                    }
                 },
                 label = { Text(text = item.title) },
                 icon = {
