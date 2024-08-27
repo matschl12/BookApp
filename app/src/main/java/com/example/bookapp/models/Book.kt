@@ -1,14 +1,14 @@
 package com.example.bookapp.models
 
 data class Book (
-    val titel: String,
-    val autor: String,
-    val release: Int,
-    val isbn: String,
+    var titel: String,
+    var autor: String,
+    var release: Int,
+    var isbn: String,
     var onReadList: Boolean
 )
 
-val bookList = mutableListOf(
+var bookList = mutableListOf(
         Book(titel = "Die Tribute von Panem 1. Tödliche Spiele",
             autor = "Suzanne Collins",
             release = 2020,
@@ -60,8 +60,8 @@ fun editReadList(book: Book){
 }
 
 fun editBook(index: Int, titel: String, autor: String, release: Int, isbn: String, onReadList: Boolean){
-    bookList.removeAt(1)
-    bookList.add(1,  Book(titel, autor, release, isbn, onReadList))
+    bookList.removeAt(index)
+    bookList.add(index,  Book(titel, autor, release, isbn, onReadList))
 
 }
 
