@@ -40,31 +40,6 @@ fun getBooks(): List<Book> {
     return bookList
 }
 
-fun addBook(book: Book){
-    bookList.add(book)
-}
-
-fun removeBook(book: Book){
-    bookList.remove(book)
-}
-
-fun editReadList(book: Book){
-    if(!book.onReadList)
-    {
-        book.onReadList = true
-    }
-    else
-    {
-        book.onReadList = false
-    }
-}
-
-fun editBook(index: Int, titel: String, autor: String, release: Int, isbn: String, onReadList: Boolean){
-    bookList.removeAt(index)
-    bookList.add(index,  Book(titel, autor, release, isbn, onReadList))
-
-}
-
 fun isbnChecker(isbn: Long): Boolean{
     val firstDigit = isbn.toString().first().toString().toInt()
     val secondDigit = isbn.toString()[1].toString().toInt()

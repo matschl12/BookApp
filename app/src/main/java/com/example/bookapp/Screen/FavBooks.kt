@@ -21,11 +21,11 @@ import com.example.bookapp.Widgets.BottomNavBar
 import com.example.bookapp.Widgets.BookList
 import com.example.bookapp.BottomNavigationItem
 import com.example.bookapp.models.getBooks
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
-fun FavBooks(navController: NavController){
-    var books by remember { mutableStateOf(getBooks()) }
+fun FavBooks(navController: NavController, favBooksViewModel: FavBooksViewModel){
     val items = listOf(
         BottomNavigationItem(
             title = "FavBooks",
@@ -47,7 +47,7 @@ fun FavBooks(navController: NavController){
     ) { innerPadding ->
         Spacer(modifier = Modifier.height(35.dp))
 
-        if (getBooks().isEmpty()){
+        if (favBooksViewModel.books.isEmpty()){
             Text(
                 text = "Es wurden noch keine Bücher angelegt",
                 modifier = Modifier.padding(innerPadding)
@@ -57,11 +57,9 @@ fun FavBooks(navController: NavController){
         {
             BookList(
                 modifier = Modifier.padding(innerPadding),
-                books = books,
+                onBookRemove = {book -> favBooksViewModel.deleteBook(book)},
                 navController = navController,
-                onBookRemove = {book ->
-                    books = books.toMutableList().also { it.remove(book) }
-                }
+                favBooksViewModel = favBooksViewModel
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.example.bookapp.Widgets
 
+import FavBooksViewModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -30,20 +31,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookapp.models.Book
-import com.example.bookapp.models.bookList
-import com.example.bookapp.models.editBook
-import com.example.bookapp.models.editReadList
-import com.example.bookapp.models.getBooks
-import com.example.bookapp.models.removeBook
+
 
 
 @Composable
-fun BookList (modifier: Modifier, books: List<Book> = getBooks(), onBookRemove: (Book) -> Unit, navController: NavController){
+fun BookList (modifier: Modifier, onBookRemove: (Book) -> Unit, navController: NavController, favBooksViewModel: FavBooksViewModel){
     LazyColumn (modifier = modifier){
-        itemsIndexed(books) {index, book ->
+        itemsIndexed(favBooksViewModel.books) {index, book ->
             BookRow(book, index, onRemove = {onBookRemove(book)}, navController)
         }
     }
@@ -52,6 +51,8 @@ fun BookList (modifier: Modifier, books: List<Book> = getBooks(), onBookRemove: 
 @Composable
 fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavController) {
     var showDetails by remember { mutableStateOf(false) }
+    val favBooksViewModel = FavBooksViewModel()
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,13 +90,13 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                     Text(text = "On Readlist: ${book.onReadList}")
                     if(!book.onReadList)
                     {
-                        Button(onClick = { editReadList(book) }) {
+                        Button(onClick = { favBooksViewModel.editReadList(book) }) {
                             Text(text = "Add to Readlist")
                         }
                     }
                     else
                     {
-                        Button(onClick = { editReadList(book) }) {
+                        Button(onClick = { favBooksViewModel.editReadList(book) }) {
                             Text(text = "Remove from Readlist")
                         }
                     }
@@ -114,8 +115,10 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                         Text(text = "Edit")
                     }
                     Button(onClick = {
+                        favBooksViewModel.deleteBook(book)
                         onRemove()
-                        removeBook(book)}) {
+                         // Book(book)
+                    }) {
                         Text(text = "Remove")
                     }
                 }

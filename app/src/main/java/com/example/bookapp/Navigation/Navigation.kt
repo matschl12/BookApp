@@ -1,7 +1,9 @@
 package com.example.bookapp.Navigation
 
 import FavBooks
+import FavBooksViewModel
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -10,13 +12,14 @@ import com.example.bookapp.Screen.AddBooks
 @Composable
 fun Navigation(){
     val navController = rememberNavController()
+    val favBooksViewModel : FavBooksViewModel = viewModel()
 
     NavHost(navController = navController,
         startDestination="FavBooks")
     {
 
         composable(route="FavBooks"){
-            FavBooks(navController)
+            FavBooks(navController, favBooksViewModel)
         }
 
 
@@ -31,7 +34,8 @@ fun Navigation(){
                 backStackEntry.arguments?.getString("oldRelease")?.toIntOrNull() ?: 0,
                 backStackEntry.arguments?.getString("oldIsbn") ?: "",
                 backStackEntry.arguments?.getString("onReadList")?.toBoolean() ?: false,
-                backStackEntry.arguments?.getString("isBeingEdited")?.toBoolean() ?: true
+                backStackEntry.arguments?.getString("isBeingEdited")?.toBoolean() ?: true,
+                favBooksViewModel
             )
         }
     }

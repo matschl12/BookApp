@@ -1,5 +1,6 @@
 package com.example.bookapp.Widgets
 
+import FavBooksViewModel
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -8,10 +9,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.bookapp.BottomNavigationItem
-import com.example.bookapp.models.bookList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,6 +23,8 @@ fun BottomNavBar(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
     var selectedItemIndex = items.indexOfFirst { it.title == currentDestination?.route }
+    val favBooksViewModel : FavBooksViewModel = viewModel()
+
 
     NavigationBar {
         items.forEachIndexed { index, item ->
@@ -30,7 +33,7 @@ fun BottomNavBar(
                 onClick = {
                         if (item.title == "AddBooks"){
                             selectedItemIndex = index
-                            navController.navigate("AddBooks/${bookList.size}/ / / /0/false/false") {
+                            navController.navigate("AddBooks/${favBooksViewModel.books.size}/ / / /0/false/false") {
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
                                 }
