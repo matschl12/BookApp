@@ -1,6 +1,6 @@
 package com.example.bookapp.Widgets
 
-import FavBooksViewModel
+import BooksViewModel
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,7 +23,7 @@ fun BottomNavBar(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination
     var selectedItemIndex = items.indexOfFirst { it.title == currentDestination?.route }
-    val favBooksViewModel : FavBooksViewModel = viewModel()
+    val booksViewModel : BooksViewModel = viewModel()
 
 
     NavigationBar {
@@ -33,7 +33,7 @@ fun BottomNavBar(
                 onClick = {
                         if (item.title == "AddBooks"){
                             selectedItemIndex = index
-                            navController.navigate("AddBooks/${favBooksViewModel.books.size}/ / / /0/false/false") {
+                            navController.navigate("AddBooks/${booksViewModel.books.size}/ / / /0/false/false") { //this is the default route to the addbooks-screen.
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
                                 }

@@ -1,6 +1,6 @@
 package com.example.bookapp.Screen
 
-import FavBooksViewModel
+import BooksViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +31,7 @@ import com.example.bookapp.Widgets.BottomNavBar
 import com.example.bookapp.BottomNavigationItem
 
 @Composable
-fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAutor: String, oldRelease: Int, oldIsbn: String, onReadList: Boolean, isBeingEdited: Boolean, favBooksViewModel: FavBooksViewModel){
+fun AddBooks(navController: NavController, index: Int, oldTitle: String, oldAuthor: String, oldRelease: Int, oldIsbn: String, onReadList: Boolean, isBeingEdited: Boolean, booksViewModel: BooksViewModel){
     val items = listOf(
         BottomNavigationItem(
             title = "FavBooks",
@@ -45,10 +45,10 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
         )
     )
     var title by remember {
-        mutableStateOf(oldTitel)
+        mutableStateOf(oldTitle)
     }
     var author by remember {
-        mutableStateOf(oldAutor)
+        mutableStateOf(oldAuthor)
     }
     var release by remember {
         mutableStateOf(oldRelease.toString())
@@ -85,7 +85,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                 .padding(innerPadding),
         ) {
             Spacer(modifier = Modifier.height(35.dp))
-            Text(text = if (!isBeingEdited) "Add Book" else "Edit Book")
+            Text(text = if (!isBeingEdited) "Add Book" else "Edit Book") //shows the correct text on top of the screen on the when a book is either getting added or edited
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -142,7 +142,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                     value = isbn1,
                     onValueChange = { isbn1 = it },
                     label = { Text("ISBN (1)") },
-                    modifier = Modifier.weight(1f) // verteilt den Platz gleichmäßig
+                    modifier = Modifier.weight(1f) // arranges the space evenly
                 )
                 Text("-", modifier = Modifier.padding(horizontal = 4.dp))
                 TextField(
@@ -182,9 +182,9 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Button( onClick = {
-                   popUp = favBooksViewModel.validateAndSaveBook(index,title, author, release, isbn1, isbn2, isbn3, isbn4, isbn5, isBeingEdited, onReadList, navController )
+                   popUp = booksViewModel.validateAndSaveBook(index,title, author, release, isbn1, isbn2, isbn3, isbn4, isbn5, isBeingEdited, onReadList, navController )
                 }) {
-                    Text(text = if (!isBeingEdited) "Add Book" else "Edit Book")
+                    Text(text = if (!isBeingEdited) "Add Book" else "Edit Book") //shows the correct text on the button on the when a book is either getting added or edited
                 }
             }
             Row(
@@ -194,7 +194,7 @@ fun AddBooks(navController: NavController, index: Int, oldTitel: String, oldAuto
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                Text(text = popUp)
+                Text(text = popUp) //notices the user if a was added or edited. Also shows the user error messages.
             }
         }
     }

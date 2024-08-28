@@ -1,6 +1,6 @@
 package com.example.bookapp.Widgets
 
-import FavBooksViewModel
+import BooksViewModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -31,18 +30,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.bookapp.models.Book
 
 
 
 @Composable
-fun BookList (modifier: Modifier, onBookRemove: (Book) -> Unit, navController: NavController, favBooksViewModel: FavBooksViewModel){
+fun BookList (modifier: Modifier, onBookRemove: (Book) -> Unit, navController: NavController, booksViewModel: BooksViewModel){
     LazyColumn (modifier = modifier){
-        itemsIndexed(favBooksViewModel.books) {index, book ->
+        itemsIndexed(booksViewModel.books) { index, book ->
             BookRow(book, index, onRemove = {onBookRemove(book)}, navController)
         }
     }
@@ -51,7 +47,7 @@ fun BookList (modifier: Modifier, onBookRemove: (Book) -> Unit, navController: N
 @Composable
 fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavController) {
     var showDetails by remember { mutableStateOf(false) }
-    val favBooksViewModel = FavBooksViewModel()
+    val booksViewModel = BooksViewModel()
 
     Card(
         modifier = Modifier
@@ -65,11 +61,11 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(6.dp)
-                    .clickable { showDetails = !showDetails }, // Zum Ein- und Ausklappen
+                    .clickable { showDetails = !showDetails }, //to show or hide details
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "\"" + book.titel + "\" von " + book.autor)
+                Text(text = "\"" + book.title + "\" von " + book.author)
                 Icon(
                     imageVector = if (showDetails) Icons.Filled.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                     contentDescription = "show more"
@@ -90,18 +86,18 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                     Text(text = "On Readlist: ${book.onReadList}")
                     if(!book.onReadList)
                     {
-                        Button(onClick = { favBooksViewModel.editReadList(book) }) {
+                        Button(onClick = { booksViewModel.editReadList(book) }) {
                             Text(text = "Add to Readlist")
                         }
                     }
                     else
                     {
-                        Button(onClick = { favBooksViewModel.editReadList(book) }) {
+                        Button(onClick = { booksViewModel.editReadList(book) }) {
                             Text(text = "Remove from Readlist")
                         }
                     }
                     Button(onClick = {
-                            navController.navigate("AddBooks/${index}/${book.titel}/${book.autor}/${book.release}/${book.isbn}/${book.onReadList}/true")
+                            navController.navigate("AddBooks/${index}/${book.title}/${book.author}/${book.release}/${book.isbn}/${book.onReadList}/true")
                             {
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
@@ -115,7 +111,7 @@ fun BookRow (book: Book, index: Int, onRemove: () -> Unit, navController: NavCon
                         Text(text = "Edit")
                     }
                     Button(onClick = {
-                        favBooksViewModel.deleteBook(book)
+                        booksViewModel.deleteBook(book)
                         onRemove()
                          // Book(book)
                     }) {

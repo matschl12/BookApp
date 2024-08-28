@@ -10,22 +10,16 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.bookapp.Widgets.BottomNavBar
 import com.example.bookapp.Widgets.BookList
 import com.example.bookapp.BottomNavigationItem
-import com.example.bookapp.models.getBooks
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
-fun FavBooks(navController: NavController, favBooksViewModel: FavBooksViewModel){
+fun FavBooks(navController: NavController, booksViewModel: BooksViewModel){
     val items = listOf(
         BottomNavigationItem(
             title = "FavBooks",
@@ -47,9 +41,9 @@ fun FavBooks(navController: NavController, favBooksViewModel: FavBooksViewModel)
     ) { innerPadding ->
         Spacer(modifier = Modifier.height(35.dp))
 
-        if (favBooksViewModel.books.isEmpty()){
+        if (booksViewModel.books.isEmpty()){
             Text(
-                text = "Es wurden noch keine Bücher angelegt",
+                text = "There are no books in your list", //text on top of screen if there are no books in the list
                 modifier = Modifier.padding(innerPadding)
             )
         }
@@ -57,9 +51,9 @@ fun FavBooks(navController: NavController, favBooksViewModel: FavBooksViewModel)
         {
             BookList(
                 modifier = Modifier.padding(innerPadding),
-                onBookRemove = {book -> favBooksViewModel.deleteBook(book)},
+                onBookRemove = {book -> booksViewModel.deleteBook(book)},
                 navController = navController,
-                favBooksViewModel = favBooksViewModel
+                booksViewModel = booksViewModel
             )
         }
     }

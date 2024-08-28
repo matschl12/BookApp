@@ -1,4 +1,3 @@
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -7,7 +6,7 @@ import com.example.bookapp.models.bookList
 import com.example.bookapp.models.getBooks
 import com.example.bookapp.models.isbnChecker
 
-class FavBooksViewModel : ViewModel() {
+class BooksViewModel : ViewModel() {
     private val _books = getBooks().toMutableStateList()
     val books: List<Book>
         get() = _books
@@ -43,6 +42,7 @@ class FavBooksViewModel : ViewModel() {
 
     }
 
+    //this method checks if all inputs of the user are correct and adds/edits a book. It returns a String for a "pop-up" message on the AddBooks-Screen.
     fun validateAndSaveBook(index: Int, title: String, author: String, release: String, isbn1: String, isbn2: String, isbn3: String, isbn4: String, isbn5: String, isBeingEdited: Boolean, onReadList: Boolean, navController: NavController): String
     {
         if (title.isNotBlank() && author.isNotBlank() && release.isNotBlank() && isbn1.isNotBlank() && isbn2.isNotBlank() && isbn3.isNotBlank() && isbn4.isNotBlank() && isbn5.isNotBlank()) { //checks if every TextField is filled out
